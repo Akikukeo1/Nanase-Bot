@@ -22,8 +22,6 @@ RUN pnpm run build
 FROM base AS production
 ENV NODE_ENV=production
 
-COPY tsconfig.json ./
-
 RUN pnpm install --frozen-lockfile --prod
 
 COPY --from=builder /app/build ./build
