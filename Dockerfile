@@ -6,6 +6,7 @@ RUN corepack enable
 
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
+RUN corepack install
 
 FROM base AS development
 RUN pnpm install --frozen-lockfile
