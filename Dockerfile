@@ -8,16 +8,15 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN corepack install
 
-FROM base AS development
+FROM base AS deps
 RUN pnpm install --frozen-lockfile
+
+FROM deps AS development
 COPY . .
+CMD ["pnpm", "dev"]
 
-CMD ["pnpm", "run", "dev"]
-
-FROM base AS builder
-RUN pnpm install --frozen-lockfile
+FROM deps AS builder
 COPY . .
-
 RUN pnpm run build
 
 FROM base AS production
@@ -25,6 +24,7 @@ ENV NODE_ENV=production
 
 RUN pnpm install --frozen-lockfile --prod
 
+# NOTE: 書き込みが発生するなら変更する必要がある
 COPY --from=builder /app/build ./build
 
 USER node
