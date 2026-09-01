@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc",
-    "start": "node -r tsconfig-paths/register ./build/index.js",
+    "start": "node ./build/src/index.js",
     "// linters //": "",
     "typecheck": "tsc --noEmit",
     "lint": "biome lint .",

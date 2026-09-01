@@ -1,6 +1,7 @@
 FROM node:24 AS base
 
 ENV PNPM_HOME="/pnpm"
+ENV PNPM_CONFIG_STORE_DIR="/pnpm/store"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
@@ -30,4 +31,4 @@ COPY --from=builder /app/build ./build
 USER node
 EXPOSE 3000
 
-CMD ["node", "./build/index.js"]
+CMD ["node", "./build/src/index.js"]
