@@ -25,7 +25,11 @@ dotenv.config({ path: ".env" });
 // 実行中のファイルの配置から、読み込むモジュールの種類と基準ディレクトリを決定する。
 // ts-node では src/index.ts、コンパイル後の Node.js では build/src/index.js になるため、
 // 起動引数や出力ディレクトリ名に依存しない。
-const FILE_TYPE = __filename.endsWith(".js") ? ".js" : ".ts";
+const FILE_TYPE = path.extname(__filename);
+
+if (![".js", ".ts"].includes(fileType)) {
+  throw new Error("File type was not allowed");
+}
 const BASE_DIR = __dirname;
 
 const CLIENT_INTENTS: GatewayIntentBits[] = [
