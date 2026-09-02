@@ -28,8 +28,8 @@ dotenv.config({ path: ".env" });
 // 起動引数や出力ディレクトリ名に依存しない。
 const FILE_TYPE = path.extname(__filename);
 
-if (![".js", ".ts"].includes(fileType)) {
-  throw new Error("File type was not allowed");
+if (!['.js', '.ts'].includes(FILE_TYPE)) {
+	throw new Error('File type was not allowed');
 }
 const BASE_DIR = __dirname;
 
