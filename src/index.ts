@@ -8,6 +8,7 @@ import {
 	type ModalSubmitInteraction,
 } from "discord.js";
 import dotenv from "dotenv";
+import path from "node:path";
 import addReactionRole from "./handlers/events/reactionRole/addReactionRole";
 import removeReactionRole from "./handlers/events/reactionRole/removeReactionRole";
 import { handleVcJoin } from "./handlers/events/vc/join";
