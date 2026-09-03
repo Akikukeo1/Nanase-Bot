@@ -32,3 +32,13 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm run ${{ matrix.command }}
+
+  docker-build:
+    name: Docker build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build --pull --tag nanase-bot:ci .
