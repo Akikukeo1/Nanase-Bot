@@ -1,3 +1,4 @@
+import path from "node:path";
 import {
 	type ButtonInteraction,
 	type CacheType,
@@ -22,10 +23,15 @@ import { loadActions, loadCommands } from "./utils/loader";
 
 dotenv.config({ path: ".env" });
 
-// 実行環境に応じてファイルタイプとディレクトリを決定
-const FILE_TYPE: string = process.argv[2] === "js" ? ".js" : ".ts";
-const IS_PRODUCTION = FILE_TYPE === ".js";
-const BASE_DIR = IS_PRODUCTION ? "./dist" : "./src";
+// 実行中のファイルの配置から、読み込むモジュールの種類と基準ディレクトリを決定する。
+// ts-node では src/index.ts、コンパイル後の Node.js では build/src/index.js になるため、
+// 起動引数や出力ディレクトリ名に依存しない。
+const FILE_TYPE = path.extname(__filename);
+
+if (![".js", ".ts"].includes(FILE_TYPE)) {
+	throw new Error(`Unsupported entry-point extension: ${FILE_TYPE || "(none)"}`);
+}
+const BASE_DIR = __dirname;
 
 const CLIENT_INTENTS: GatewayIntentBits[] = [
 	GatewayIntentBits.Guilds,
@@ -225,12 +231,8 @@ client.on("guildMemberAdd", async (member) => {
 		await addRoleSafely(member, "1454099602641780737", "student");
 	}
 
-	// 年に応じたロールを付与
-	if (date.getFullYear() == 2025) {
-		await addRoleSafely(member, "1454661774576980090", "2025 student");
-	} else if (date.getFullYear() == 2026) {
-		await addRoleSafely(member, "1455864840630308925", "2026 student");
-	}
+	// 年に応じたロールを付与(第3期生)
+	await addRoleSafely(member, "1504117815333093426", "2026 student");
 });
 
 // メンバー数更新
