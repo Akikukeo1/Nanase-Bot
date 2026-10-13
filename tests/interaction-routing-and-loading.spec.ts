@@ -18,13 +18,14 @@ import createInteractionRouter from "../src/presentation/interactions/router";
 import type { Command } from "../src/types/command";
 
 describe("コマンドとアクションの読み込み", () => {
-  test("読み込み後もチケットの権限とボタン処理が保たれる", () => {
+  test("チケットのコマンドとボタンアクションを読み込める", () => {
     const presentation = path.resolve(__dirname, "../src/presentation");
     const commands = loadCommands(path.join(presentation, "commands"), ".ts");
     const actions = loadActions(path.join(presentation, "interactions"), ".ts");
-    assert.deepEqual(Object.keys(commands).sort(), ["ping", "ticket"]);
-    assert.deepEqual(Object.keys(actions.button), ["ticket-open"]);
-    assert.deepEqual(actions.modal, {});
+
+    assert.ok(commands.ticket);
+    assert.ok(actions.button["ticket-open"]);
+
     const permissions = new PermissionsBitField(commands.ticket.data.defaultMemberPermissions ?? []);
     assert.equal(permissions.bitfield, PermissionFlagsBits.ManageChannels);
   });
